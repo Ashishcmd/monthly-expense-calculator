@@ -62,30 +62,31 @@ def dashboard_page():
     user_id = st.session_state['user'].id
 
     
-    st.sidebar.header("➕ Add New Expense")
-    with st.sidebar.form("expense_form", clear_on_submit=True):
-        exp_date = st.date_input("Date", date.today())
-        exp_amount = st.number_input("Amount (₹)", min_value=0.0, step=10.0)
-        exp_category = st.selectbox("Category", [
-            "Food & Dining", "Travel & Commute", "Groceries", 
-            "Shopping", "Bills & Utilities", "Education", 
-            "Health", "Entertainment", "Paid to Someone", "Other"
-        ])
-        exp_need_want = st.radio("Type", ["Need", "Want"])
-        exp_desc = st.text_input("Description (Optional)")
-        
-        submitted = st.form_submit_button("Save Expense")
-        if submitted and exp_amount > 0:
-            supabase.table("expenses").insert({
-                "user_id": user_id,
-                "date": str(exp_date),
-                "amount": exp_amount,
-                "category": exp_category,
-                "need_want": exp_need_want,
-                "description": exp_desc
-            }).execute()
-            st.sidebar.success("Expense saved!")
-            st.rerun()
+    # --- ADD EXPENSE FORM (Moved to main view for mobile) ---
+    with st.expander("➕ Tap here to Add a New Expense", expanded=False):
+        with st.form("expense_form", clear_on_submit=True):
+            exp_date = st.date_input("Date", date.today())
+            exp_amount = st.number_input("Amount (₹)", min_value=0.0, step=10.0)
+            exp_category = st.selectbox("Category", [
+                "Food & Dining", "Travel & Commute", "Groceries", 
+                "Shopping", "Bills & Utilities", "Education", 
+                "Health", "Entertainment", "Paid to Someone", "Other"
+            ])
+            exp_need_want = st.radio("Type", ["Need", "Want"])
+            exp_desc = st.text_input("Description (Optional)")
+            
+            submitted = st.form_submit_button("Save Expense", type="primary")
+            if submitted and exp_amount > 0:
+                supabase.table("expenses").insert({
+                    "user_id": user_id,
+                    "date": str(exp_date),
+                    "amount": exp_amount,
+                    "category": exp_category,
+                    "need_want": exp_need_want,
+                    "description": exp_desc
+                }).execute()
+                st.success("Expense saved!")
+                st.rerun()
             
     
     response = supabase.table("expenses").select("*").eq("user_id", user_id).execute()
