@@ -17,6 +17,15 @@ def init_connection():
         return None
 
 supabase: Client = init_connection()
+hide_st_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            header {visibility: hidden;}
+            footer {visibility: hidden;}
+            .stDeployButton {display:none;}
+            </style>
+            """
+st.markdown(hide_st_style, unsafe_allow_html=True)
 
 
 if 'user' not in st.session_state:
