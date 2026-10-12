@@ -70,7 +70,7 @@ def dashboard_page():
                 "Shopping", "Bills & Utilities", "Education", 
                 "Health", "Entertainment", "Paid to Someone", "Other"
             ])
-            exp_need_want = st.radio("Type", ["Need", "Want"])
+            exp_need_want = st.radio("Type", ["Want", "Need"])
             exp_desc = st.text_input("Description (Optional)")
             
             submitted = st.form_submit_button("Save Expense", type="primary")
