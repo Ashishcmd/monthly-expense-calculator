@@ -5,8 +5,13 @@ import plotly.express as px
 from datetime import date, datetime
 import calendar
 
+st.set_page_config(
+    page_title="Monthly Expense Calculator",
+    layout="wide",
+)
 
 @st.cache_resource
+
 def init_connection():
     try:
         url = st.secrets["SUPABASE_URL"]
